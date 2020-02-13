@@ -28,21 +28,19 @@ public class MealsUtil {
 
     public static void main(String[] args) {
 
-        List<MealTo> m = MealsUtil.getTos(MealsUtil.listOfMeal, 2000);
-        m.forEach(System.out::println);
     }
 
-    public static List<MealTo> filteredByStreams(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
-                .collect(
-                        Collectors.groupingBy(Meal::getDate, Collectors.summingInt(Meal::getCalories))
-                );
-
-        return meals.stream()
-                .filter(meal -> TimeUtil.isBetweenInclusive(meal.getTime(), startTime, endTime))
-                .map(meal -> createTo(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay))
-                .collect(Collectors.toList());
-    }
+//    public static List<MealTo> filteredByStreams(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
+//        Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
+//                .collect(
+//                        Collectors.groupingBy(Meal::getDate, Collectors.summingInt(Meal::getCalories))
+//                );
+//
+//        return meals.stream()
+//                .filter(meal -> TimeUtil.isBetweenInclusive(meal.getTime(), startTime, endTime))
+//                .map(meal -> createTo(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay))
+//                .collect(Collectors.toList());
+//    }
 
     private static MealTo createTo(Meal meal, boolean excess) {
         return new MealTo(meal.getDateTime(), meal.getDescription(), meal.getCalories(), excess);
