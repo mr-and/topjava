@@ -1,8 +1,8 @@
 package ru.javawebinar.topjava.model;
 
 import org.hibernate.Hibernate;
-import org.springframework.data.domain.Persistable;
 import org.springframework.util.Assert;
+import ru.javawebinar.topjava.HasId;
 
 import javax.persistence.*;
 
@@ -10,7 +10,7 @@ import javax.persistence.*;
 // http://stackoverflow.com/questions/594597/hibernate-annotations-which-is-better-field-or-property-access
 @Access(AccessType.FIELD)
 //@JsonAutoDetect(fieldVisibility = ANY, getterVisibility = NONE, isGetterVisibility = NONE, setterVisibility = NONE)
-public abstract class AbstractBaseEntity implements Persistable<Integer> {
+public abstract class AbstractBaseEntity implements HasId {
     public static final int START_SEQ = 100000;
 
     @Id
@@ -29,6 +29,7 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
         this.id = id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
@@ -45,25 +46,26 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
     }
 
     @Override
-    public boolean isNew() {
-        return this.id == null;
-    }
-
-    @Override
     public String toString() {
         return getClass().getSimpleName() + ":" + id;
     }
 
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) {
+//            return true;
+//        }
+//        if (o == null || !getClass().equals(Hibernate.getClass(o))) {
+//            return false;
+//        }
+//        AbstractBaseEntity that = (AbstractBaseEntity) o;
+//        return id != null && id.equals(that.id);
+//    }
+
+
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || !getClass().equals(Hibernate.getClass(o))) {
-            return false;
-        }
-        AbstractBaseEntity that = (AbstractBaseEntity) o;
-        return id != null && id.equals(that.id);
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 
     @Override
